@@ -107,11 +107,11 @@ const App = defineComponent({
     // const methodRef: Ref<any> = ref()
     const classesRef = useStyles()
 
-    // const handleChange = (v: any) => {
-    //   // console.log('data', v, 'toJson(v)', toJson(v))
-    //   demo.data = v
-    //   demo.dataCode = toJson(v)
-    // }
+    const handleChange = (v: any) => {
+      // console.log('data', v, 'toJson(v)', toJson(v))
+      demo.data = v
+      demo.dataCode = toJson(v)
+    }
 
     // closure 闭包 demo
     function handleCodeChange(
@@ -179,7 +179,11 @@ const App = defineComponent({
             </div>
             {/* /.code */}
             <div class={classes.form}>
-              <SchemaForm />
+              <SchemaForm
+                schema={demo.schema}
+                onChange={handleChange}
+                value={demo.data}
+              />
               {/* <SchemaForm
                   schema={demo.schema}
                   value={demo.data}
