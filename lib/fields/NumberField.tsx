@@ -4,9 +4,16 @@ import { FieldPropsDefine } from '../types'
 export default defineComponent({
   name: 'NumberField',
   props: FieldPropsDefine,
-  setup() {
+  setup(props) {
+    const handleChange = (v: any) => {
+      const value = Number(v.target.value)
+      props.onChange(value)
+    }
     return () => {
-      return <div>number field</div>
+      const { value } = props
+      return (
+        <input type="number" value={value as number} onInput={handleChange} />
+      )
     }
   },
 })

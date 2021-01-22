@@ -2,6 +2,7 @@ import { computed, defineComponent } from 'vue'
 import NumberField from './fields/NumberField'
 import StringField from './fields/StringField'
 import ObjectField from './fields/ObjectField'
+import ArrayField from './fields/ArrayField'
 
 import { SchemaTypes, FieldPropsDefine } from './types'
 import { retrieveSchema } from './utils'
@@ -31,6 +32,9 @@ export default defineComponent({
           break
         case SchemaTypes.OBJECT:
           Component = ObjectField
+          break
+        case SchemaTypes.ARRAY:
+          Component = ArrayField
           break
         default:
           console.warn(`${type} is not supported`)
