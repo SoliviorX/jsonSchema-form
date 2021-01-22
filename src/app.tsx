@@ -71,18 +71,20 @@ const useStyles = createUseStyles({
   },
 })
 
+interface DemoType {
+  schema: Schema | null
+  data: any
+  uiSchema: UISchema | null
+  schemaCode: string
+  dataCode: string
+  uiSchemaCode: string
+}
+
 const App = defineComponent({
   setup() {
     const selectedRef: Ref<number> = ref(0)
 
-    const demo: {
-      schema: Schema | null
-      data: any
-      uiSchema: UISchema | null
-      schemaCode: string
-      dataCode: string
-      uiSchemaCode: string
-    } = reactive({
+    const demo: DemoType = reactive({
       schema: null,
       data: {},
       uiSchema: {},

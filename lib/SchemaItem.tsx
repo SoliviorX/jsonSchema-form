@@ -1,6 +1,7 @@
 import { defineComponent, PropType } from 'vue'
 import NumberField from './fields/NumberField'
 import StringField from './fields/StringField'
+// import StringField from './fields/StringField.vue'
 
 import { SchemaTypes, FieldPropsDefine } from './types'
 
