@@ -67,3 +67,43 @@ export const FieldPropsDefine = {
 } as const
 
 export type CommonFieldType = DefineComponent<typeof FieldPropsDefine>
+
+/**
+ * 主题
+ */
+
+// 公共主题的props定义
+export const CommonWidgetPropsDefine = {
+  value: {},
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true,
+  },
+  options: {
+    type: Object as PropType<{ [keys: string]: any }>,
+  },
+} as const
+
+// selection主题props
+export const SelectionWidgetPropsDefine = {
+  ...CommonWidgetPropsDefine,
+  options: {
+    type: Array as PropType<{ key: string; value: any }[]>,
+    required: true,
+  },
+} as const
+
+// 公共主题组件的定义
+export type CommonWidgetDefine = DefineComponent<typeof CommonWidgetPropsDefine>
+
+// selection组件定义
+export type SelectionWidgetDefine = DefineComponent<
+  typeof SelectionWidgetPropsDefine
+>
+export interface Theme {
+  widgets: {
+    SelectionWidget: SelectionWidgetDefine
+    TextWidget: CommonWidgetDefine
+    NumberWidget: CommonWidgetDefine
+  }
+}

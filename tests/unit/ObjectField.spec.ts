@@ -54,6 +54,7 @@ describe('ObjectField', () => {
     const strField = wrapper.findComponent(StringField)
     const numField = wrapper.findComponent(NumberField)
 
+    // 手动调用onChange，注意是异步的
     await strField.props('onChange')('1')
     expect(value.name).toEqual('1')
     await numField.props('onChange')(2)
