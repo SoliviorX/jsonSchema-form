@@ -8,7 +8,7 @@ import { createUseStyles } from 'vue-jss'
 // 测试数据
 import demos from './demos'
 
-import SchemaForm from '../lib'
+import SchemaForm, { ThemeProvider } from '../lib'
 
 // TODO: 在lib中export
 type Schema = any
@@ -183,12 +183,13 @@ const App = defineComponent({
             </div>
             {/* /.code */}
             <div class={classes.form}>
-              <SchemaForm
-                theme={themeDefault as any}
-                schema={demo.schema}
-                onChange={handleChange}
-                value={demo.data}
-              />
+              <ThemeProvider theme={themeDefault as any}>
+                <SchemaForm
+                  schema={demo.schema}
+                  onChange={handleChange}
+                  value={demo.data}
+                />
+              </ThemeProvider>
               {/* <SchemaForm
                   schema={demo.schema}
                   value={demo.data}

@@ -3,6 +3,8 @@ import NumberField from './fields/NumberField'
 import StringField from './fields/StringField'
 import ArrayField from './fields/ArrayField'
 import SelectionWidget from './widgets/selection'
+import ThemeProvider from './theme'
 
+export * from './types'
 export default SchemaForm
-export { NumberField, StringField, ArrayField, SelectionWidget }
+export { NumberField, StringField, ArrayField, SelectionWidget, ThemeProvider }

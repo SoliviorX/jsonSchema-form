@@ -3,8 +3,7 @@ import { createUseStyles } from 'vue-jss'
 
 import { FieldPropsDefine, Schema } from '../types'
 import { useVJSFContext } from '../context'
-// import { getWidget } from '../theme'
-// import SelectionWidget from '../widgets/selection'
+import { getWidget } from '../theme'
 
 const useStyles = createUseStyles({
   container: {
@@ -146,8 +145,10 @@ export default defineComponent({
       props.onChange(arr)
     }
 
+    const SelectionWidgetRef = getWidget('SelectionWidget')
+
     return () => {
-      const SelectionWidget = context.theme.widgets.SelectionWidget
+      const SelectionWidget = SelectionWidgetRef.value
       const { schema, rootSchema, value } = props
       const { SchemaItem } = context
       // 判断schema.items是否是数组
