@@ -1,6 +1,8 @@
 import { mount } from '@vue/test-utils'
 
-import JsonSchemaForm, {
+import TestComponent from './utils/TestComponent'
+
+import {
   NumberField,
   StringField,
   SelectionWidget,
@@ -11,7 +13,7 @@ describe('ArrayField', () => {
   // 测试是否正确渲染多类型数组
   it('should render multi type', () => {
     let value: any = []
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
@@ -35,7 +37,7 @@ describe('ArrayField', () => {
   // 测试是否正确渲染单类型数组
   it('should render single type', () => {
     let value: any = ['1', '2']
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',
@@ -58,7 +60,7 @@ describe('ArrayField', () => {
   // 测试多可选 数组
   it('should render multi-select type', () => {
     let value: any = []
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: 'array',

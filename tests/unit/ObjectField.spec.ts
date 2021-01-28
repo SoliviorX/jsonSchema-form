@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import JsonSchemaForm, { NumberField, StringField } from '../../lib'
+import TestComponent from './utils/TestComponent'
 
 describe('ObjectField', () => {
   let schema: any
@@ -21,7 +22,7 @@ describe('ObjectField', () => {
   // 测试ObjectField是否能正确渲染出子组件
   it('should render properties to correct fields', async () => {
     let value: any = {}
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
         value: value,
@@ -41,7 +42,7 @@ describe('ObjectField', () => {
   // 测试子组件触发onChange事件后，ObjectField的值是否改变
   it('should change value when sub fields trigger onChange', async () => {
     let value: any = {}
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
         value: value,
@@ -64,7 +65,7 @@ describe('ObjectField', () => {
   // 为了提高测试覆盖率，测试子组件onChange改变的值是undefined时，ObjectField的value是否正确
   it('should property be undefined when sub field trigger onChange(undefined)', async () => {
     let value: any = {}
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
         value: value,
@@ -82,7 +83,7 @@ describe('ObjectField', () => {
 
   it('should value be blank object when value type is not an object', async () => {
     let value: any = 123
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
         value: value,

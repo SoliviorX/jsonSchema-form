@@ -1,10 +1,30 @@
 import { defineComponent } from 'vue'
+import { CommonWidgetPropsDefine, CommonWidgetDefine } from '../types'
 
-export default defineComponent({
+const TextWidget: CommonWidgetDefine = defineComponent({
   name: 'TextWidget',
-  setup() {
+  props: CommonWidgetPropsDefine,
+  setup(props) {
+    const handleChange = (e: any) => {
+      const v = e.target.value
+      e.target.value = props.value
+      props.onChange(v)
+    }
+    // const styleRef = computed(() => {
+    //   return { color: (props.options && props.options.color) || 'black' }
+    // })
     return () => {
-      return <div>TextWidget</div>
+      const { value } = props
+      return (
+        <input
+          type="text"
+          value={value as any}
+          onInput={handleChange}
+          // style={styleRef.value}
+        />
+      )
     }
   },
 })
+
+export default TextWidget

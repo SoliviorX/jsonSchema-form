@@ -1,6 +1,6 @@
 import { defineComponent, reactive, ref, Ref, watchEffect } from 'vue'
 import MonacoEditor from './components/MonacoEditor'
-// 将主题和核心代码分离，主题从外部引入到app.tsx，传给SchemaForm ————> ArrayField/ObjectField —————> 将数据在该主题上渲染出来
+// 将主题和核心代码分离，主题从外部引入到app.tsx，依次传给SchemaForm ————> ArrayField/ObjectField —————> 将数据在该主题上渲染出来
 import themeDefault from '../lib/theme-default'
 
 import { createUseStyles } from 'vue-jss'
@@ -183,7 +183,8 @@ const App = defineComponent({
             </div>
             {/* /.code */}
             <div class={classes.form}>
-              <ThemeProvider theme={themeDefault as any}>
+              {/* 将主题与核心代码解耦，主题内部使用slots.default()来渲染它的子组件 */}
+              <ThemeProvider theme={themeDefault}>
                 <SchemaForm
                   schema={demo.schema}
                   onChange={handleChange}

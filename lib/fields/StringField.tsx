@@ -1,18 +1,21 @@
-import { defineComponent } from 'vue'
-import { FieldPropsDefine } from '../types'
+import { defineComponent, computed } from 'vue'
+import { FieldPropsDefine, CommonWidgetDefine } from '../types'
+import { getWidget } from '../theme'
 
 export default defineComponent({
   name: 'StringField',
   props: FieldPropsDefine,
   setup(props) {
     const handleChange = (v: any) => {
-      props.onChange(v.target.value)
+      props.onChange(v)
     }
+    const TextWidgetRef = computed(() => {
+      return getWidget('TextWidget').value
+    })
     return () => {
-      const { value } = props
-      return (
-        <input type="text" value={value as string} onInput={handleChange} />
-      )
+      const TextWidget = TextWidgetRef.value as CommonWidgetDefine
+      const { schema, rootSchema, ...rest } = props
+      return <TextWidget {...rest} onChange={handleChange} />
     }
   },
 })
