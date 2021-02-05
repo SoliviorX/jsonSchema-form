@@ -135,6 +135,15 @@ const App = defineComponent({
     const handleDataChange = (v: string) => handleCodeChange('data', v)
     const handleUISchemaChange = (v: string) => handleCodeChange('uiSchema', v)
 
+    const contextRef = ref() // 进行验证用
+    const formRef = ref()
+
+    const validateForm = () => {
+      contextRef.value.doValidate().then((result: any) => {
+        console.log(result, '............')
+      })
+    }
+
     return () => {
       const classes = classesRef.value
       const selected = selectedRef.value
@@ -189,8 +198,11 @@ const App = defineComponent({
                   schema={demo.schema}
                   onChange={handleChange}
                   value={demo.data}
+                  contextRef={contextRef}
+                  ref={formRef}
                 />
               </ThemeProvider>
+              <button onClick={validateForm}>校验</button>
               {/* <SchemaForm
                   schema={demo.schema}
                   value={demo.data}
