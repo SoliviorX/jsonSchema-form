@@ -13,12 +13,13 @@ import Ajv, { Options } from 'ajv'
 import { Schema } from './types'
 import SchemaItem from './SchemaItem'
 import { SchemaFormContextKey } from './context'
+import { validateFormData, ErrorSchema } from './validator'
 
 interface ContextRef {
-  doValidate: () => {
+  doValidate: () => Promise<{
     errors: any[]
     valid: boolean
-  }
+  }>
 }
 
 const defaultAjvOptions: Options = {
@@ -46,6 +47,10 @@ export default defineComponent({
     ajvOptions: {
       type: Object as PropType<Options>,
     },
+    locale: {
+      type: String,
+      default: 'zh',
+    },
   },
   setup(props) {
     const handleChange = (v: any) => {
@@ -59,6 +64,7 @@ export default defineComponent({
 
     const validateResolveRef = ref()
     const validatorRef: Ref<Ajv> = shallowRef() as any
+    const errorSchemaRef: Ref<ErrorSchema> = shallowRef({})
 
     watchEffect(() => {
       validatorRef.value = new Ajv({
@@ -73,18 +79,10 @@ export default defineComponent({
         if (props.contextRef) {
           props.contextRef.value = {
             doValidate() {
-              const valid = validatorRef.value.validate(
-                props.schema,
-                props.value,
-              ) as boolean
-              return {
-                valid: valid,
-                errors: validatorRef.value.errors || [],
-              }
-              // return new Promise(resolve => {
-              //   validateResolveRef.value = resolve
-              //   doValidate()
-              // })
+              return new Promise(resolve => {
+                validateResolveRef.value = resolve
+                doValidate()
+              })
             },
           }
         }
@@ -95,15 +93,14 @@ export default defineComponent({
       },
     )
     async function doValidate() {
-      console.log('start validate --------->')
-      const valid = validatorRef.value.validate(
-        props.schema,
+      const result = await validateFormData(
+        validatorRef.value,
         props.value,
-      ) as boolean
-      return {
-        valid: valid,
-        errors: validatorRef.value.errors || [],
-      }
+        props.schema,
+        props.locale,
+      )
+      errorSchemaRef.value = result.errorSchema
+      return result
     }
 
     return () => {
@@ -114,6 +111,7 @@ export default defineComponent({
           rootSchema={schema}
           value={value}
           onChange={handleChange}
+          errorSchema={errorSchemaRef.value || {}}
         />
       )
     }
