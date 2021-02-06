@@ -1,5 +1,7 @@
 import { defineComponent, reactive, ref, Ref, watchEffect } from 'vue'
 import MonacoEditor from './components/MonacoEditor'
+import customFormat from './plugins/customFormat'
+import customKeyword from './plugins/customKeyword'
 // 将主题和核心代码分离，主题从外部引入到app.tsx，依次传给SchemaForm ————> ArrayField/ObjectField —————> 将数据在该主题上渲染出来
 import themeDefault from '../lib/theme-default'
 
@@ -199,27 +201,17 @@ const App = defineComponent({
               <ThemeProvider theme={themeDefault}>
                 <SchemaForm
                   schema={demo.schema}
-                  uiSchema={demo.uiSchema || {}}
                   onChange={handleChange}
                   value={demo.data}
                   contextRef={contextRef}
                   ref={formRef}
                   customValidate={demo.customValidate}
-                />
-              </ThemeProvider>
-              <button onClick={validateForm}>校验</button>
-              {/* <SchemaForm
-                  schema={demo.schema}
-                  value={demo.data}
-                  onChange={handleChange}
-                  contextRef={contextRef}
-                  ref={nameRef}
-                  customValidate={demo.customValidate}
                   uiSchema={demo.uiSchema || {}}
                   customFormats={customFormat}
                   customKeywords={customKeyword}
                 />
-                <button onClick={validateForm}>校验</button> */}
+              </ThemeProvider>
+              <button onClick={validateForm}>校验</button>
             </div>
           </div>
         </div>

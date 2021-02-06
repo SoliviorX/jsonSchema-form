@@ -41,11 +41,11 @@ export function getWidget(
     if (uiSchema?.widget && isObject(uiSchema.widget)) {
       return ref(uiSchema.widget)
     }
-    // if (schema.format) {
-    //   if (formContext.formatMapRef.value[schema.format]) {
-    //     return ref(formContext.formatMapRef.value[schema.format])
-    //   }
-    // }
+    if (schema.format) {
+      if (formContext.formatMapRef.value[schema.format]) {
+        return ref(formContext.formatMapRef.value[schema.format])
+      }
+    }
   }
   const context = inject<ComputedRef<Theme>>(THEME_PROVIDER_KEY)
 

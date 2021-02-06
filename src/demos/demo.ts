@@ -7,13 +7,20 @@ export default {
     properties: {
       pass1: {
         type: 'string',
-        minLength: 10,
+        // minLength: 10,
+        test: true, // 自定义keyword——test
         title: 'password',
       },
       pass2: {
         type: 'string',
         minLength: 10,
         title: 'retry password',
+      },
+      // 自定义format
+      color: {
+        type: 'string',
+        format: 'color',
+        title: 'Input Color',
       },
     },
   },

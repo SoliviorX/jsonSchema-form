@@ -6,14 +6,19 @@ import ArrayField from './fields/ArrayField'
 
 import { SchemaTypes, FieldPropsDefine } from './types'
 import { retrieveSchema } from './utils'
+import { useVJSFContext } from './context'
 
 export default defineComponent({
   name: 'SchemaItem', // 中转组件, 根据type中转到不同的组件
   props: FieldPropsDefine,
   setup(props) {
+    const formContext = useVJSFContext()
+
     const retrievedSchemaRef = computed(() => {
       const { schema, rootSchema, value } = props
-      return retrieveSchema(schema, rootSchema, value)
+      return formContext.transformSchemaRef.value(
+        retrieveSchema(schema, rootSchema, value),
+      )
     })
 
     return () => {
