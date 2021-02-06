@@ -45,7 +45,7 @@ const FormItem = defineComponent({
 
 export default FormItem
 
-// HOC: higger order component
+// HOC: higger order component: 高阶组件
 export function withFormItem(Widget: any) {
   return defineComponent({
     name: `Wrapped${Widget.name}`,
@@ -59,5 +59,5 @@ export function withFormItem(Widget: any) {
         )
       }
     },
-  })
+  }) as any
 }
