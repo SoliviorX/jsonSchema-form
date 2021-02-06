@@ -1,3 +1,5 @@
+import PasswordWidget from '../components/PasswordWidget'
+
 export default {
   name: 'demo',
   schema: {
@@ -25,6 +27,15 @@ export default {
       }, 2000)
     })
   },
-  uiSchema: {},
+  uiSchema: {
+    properties: {
+      pass1: {
+        widget: PasswordWidget,
+      },
+      pass2: {
+        color: 'red',
+      },
+    },
+  },
   default: 12123,
 }

@@ -5,8 +5,12 @@ import {
   ComputedRef,
   provide,
   inject,
+  ExtractPropTypes,
+  ref,
 } from 'vue'
-import { Theme } from './types'
+import { useVJSFContext } from './context'
+import { Theme, FieldPropsDefine } from './types'
+import { isObject } from './utils'
 
 const THEME_PROVIDER_KEY = Symbol()
 
@@ -27,7 +31,22 @@ const ThemeProvider = defineComponent({
   },
 })
 
-export function getWidget(name: keyof Theme['widgets']) {
+export function getWidget(
+  name: keyof Theme['widgets'],
+  props?: ExtractPropTypes<typeof FieldPropsDefine>,
+) {
+  const formContext = useVJSFContext()
+  if (props) {
+    const { uiSchema, schema } = props
+    if (uiSchema?.widget && isObject(uiSchema.widget)) {
+      return ref(uiSchema.widget)
+    }
+    // if (schema.format) {
+    //   if (formContext.formatMapRef.value[schema.format]) {
+    //     return ref(formContext.formatMapRef.value[schema.format])
+    //   }
+    // }
+  }
   const context = inject<ComputedRef<Theme>>(THEME_PROVIDER_KEY)
 
   if (!context) throw Error('vjsf theme required')

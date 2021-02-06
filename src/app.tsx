@@ -199,6 +199,7 @@ const App = defineComponent({
               <ThemeProvider theme={themeDefault}>
                 <SchemaForm
                   schema={demo.schema}
+                  uiSchema={demo.uiSchema || {}}
                   onChange={handleChange}
                   value={demo.data}
                   contextRef={contextRef}
