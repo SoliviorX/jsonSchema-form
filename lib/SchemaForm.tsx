@@ -51,6 +51,9 @@ export default defineComponent({
       type: String,
       default: 'zh',
     },
+    customValidate: {
+      type: Function as PropType<(data: any, errors: any) => void>,
+    },
   },
   setup(props) {
     const handleChange = (v: any) => {
@@ -62,7 +65,6 @@ export default defineComponent({
     }
     provide(SchemaFormContextKey, context)
 
-    const validateResolveRef = ref()
     const validatorRef: Ref<Ajv> = shallowRef() as any
     const errorSchemaRef: Ref<ErrorSchema> = shallowRef({})
 
@@ -73,6 +75,46 @@ export default defineComponent({
       })
     })
 
+    const validateResolveRef = ref()
+    const validateIndex = ref(0)
+
+    watch(
+      () => props.value,
+      () => {
+        // 当value改变时，只有在validateResolveRef.value为true时才做校验
+        if (validateResolveRef.value) {
+          doValidate()
+        }
+      },
+      { deep: true },
+    )
+
+    async function doValidate() {
+      console.log('start validate --------->')
+      const index = (validateIndex.value += 1)
+      const result = await validateFormData(
+        validatorRef.value,
+        props.value,
+        props.schema,
+        props.locale,
+        props.customValidate,
+      )
+      /**
+       * 为了防止短时间内多次执行校验发生性能损耗和错误：
+       * 校验是异步的；
+       * 第一次点击【校验】,validateIndex.value为1，index为1；
+       * 迅速点击第二次校验，validateIndex.value立即变为2，上一次的index还为1，所以根据下面的判断逻辑上一次的校验直接return，不执行校验结果赋值；
+       * 这一次的index为2，等于validateIndex.value，执行后续的校验结果赋值等工作
+       */
+      if (index !== validateIndex.value) return
+      console.log('end validate ----------->')
+
+      errorSchemaRef.value = result.errorSchema
+      validateResolveRef.value(result)
+      validateResolveRef.value = undefined
+    }
+
+    // 给contextRef增加异步方法doValidate，在外部点击【校验】按钮来调用该方法
     watch(
       () => props.contextRef,
       () => {
@@ -80,6 +122,7 @@ export default defineComponent({
           props.contextRef.value = {
             doValidate() {
               return new Promise(resolve => {
+                // 将resolve赋值给validateResolveRef.value，然后doValidate中校验完成后执行resolve，在父组件的doValidate().then中就可以获取到resolve的结果
                 validateResolveRef.value = resolve
                 doValidate()
               })
@@ -92,16 +135,6 @@ export default defineComponent({
         immediate: true,
       },
     )
-    async function doValidate() {
-      const result = await validateFormData(
-        validatorRef.value,
-        props.value,
-        props.schema,
-        props.locale,
-      )
-      errorSchemaRef.value = result.errorSchema
-      return result
-    }
 
     return () => {
       const { schema, value } = props

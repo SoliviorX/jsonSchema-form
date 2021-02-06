@@ -80,6 +80,7 @@ interface DemoType {
   schemaCode: string
   dataCode: string
   uiSchemaCode: string
+  customValidate: ((d: any, e: any) => void) | undefined
 }
 
 const App = defineComponent({
@@ -93,6 +94,7 @@ const App = defineComponent({
       schemaCode: '',
       dataCode: '',
       uiSchemaCode: '',
+      customValidate: undefined,
     })
 
     // 数据监听，确定 demo 的当前值
@@ -106,6 +108,7 @@ const App = defineComponent({
       demo.schemaCode = toJson(d.schema)
       demo.dataCode = toJson(d.default)
       demo.uiSchemaCode = toJson(d.uiSchema)
+      demo.customValidate = d.customValidate
     })
 
     // const methodRef: Ref<any> = ref()
@@ -139,10 +142,9 @@ const App = defineComponent({
     const formRef = ref()
 
     const validateForm = () => {
-      console.log(contextRef.value.doValidate())
-      // contextRef.value.doValidate().then((result: any) => {
-      //   console.log(result, '............')
-      // })
+      contextRef.value.doValidate().then((result: any) => {
+        console.log(result, '............')
+      })
     }
 
     return () => {
@@ -201,6 +203,7 @@ const App = defineComponent({
                   value={demo.data}
                   contextRef={contextRef}
                   ref={formRef}
+                  customValidate={demo.customValidate}
                 />
               </ThemeProvider>
               <button onClick={validateForm}>校验</button>
