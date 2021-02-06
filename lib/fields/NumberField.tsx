@@ -13,8 +13,14 @@ export default defineComponent({
     const NumberWidgetRef = getWidget('NumberWidget')
     return () => {
       const NumberWidget = NumberWidgetRef.value as CommonWidgetDefine
-      // const { value } = props
-      return <NumberWidget {...props} onChange={handleChange} />
+      const { errorSchema } = props
+      return (
+        <NumberWidget
+          {...props}
+          errors={errorSchema.__errors}
+          onChange={handleChange}
+        />
+      )
     }
   },
 })

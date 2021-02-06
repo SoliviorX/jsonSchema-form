@@ -90,6 +90,10 @@ export const CommonWidgetPropsDefine = {
   errors: {
     type: Object as PropType<string[]>,
   },
+  schema: {
+    type: Object as PropType<Schema>,
+    required: true,
+  },
 } as const
 
 // selection主题props
