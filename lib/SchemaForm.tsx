@@ -6,6 +6,7 @@ import {
   watch,
   ref,
   shallowRef,
+  watchEffect,
 } from 'vue'
 import Ajv, { Options } from 'ajv'
 
@@ -14,10 +15,15 @@ import SchemaItem from './SchemaItem'
 import { SchemaFormContextKey } from './context'
 
 interface ContextRef {
-  doValidate: () => Promise<{
+  doValidate: () => {
     errors: any[]
     valid: boolean
-  }>
+  }
+}
+
+const defaultAjvOptions: Options = {
+  allErrors: true,
+  // jsonPointers: true,
 }
 
 export default defineComponent({
@@ -37,6 +43,9 @@ export default defineComponent({
     contextRef: {
       type: Object as PropType<Ref<ContextRef | undefined>>,
     },
+    ajvOptions: {
+      type: Object as PropType<Options>,
+    },
   },
   setup(props) {
     const handleChange = (v: any) => {
@@ -51,16 +60,31 @@ export default defineComponent({
     const validateResolveRef = ref()
     const validatorRef: Ref<Ajv> = shallowRef() as any
 
+    watchEffect(() => {
+      validatorRef.value = new Ajv({
+        ...defaultAjvOptions,
+        ...props.ajvOptions,
+      })
+    })
+
     watch(
       () => props.contextRef,
       () => {
         if (props.contextRef) {
           props.contextRef.value = {
             doValidate() {
-              return new Promise(resolve => {
-                validateResolveRef.value = resolve
-                doValidate()
-              })
+              const valid = validatorRef.value.validate(
+                props.schema,
+                props.value,
+              ) as boolean
+              return {
+                valid: valid,
+                errors: validatorRef.value.errors || [],
+              }
+              // return new Promise(resolve => {
+              //   validateResolveRef.value = resolve
+              //   doValidate()
+              // })
             },
           }
         }
@@ -72,6 +96,14 @@ export default defineComponent({
     )
     async function doValidate() {
       console.log('start validate --------->')
+      const valid = validatorRef.value.validate(
+        props.schema,
+        props.value,
+      ) as boolean
+      return {
+        valid: valid,
+        errors: validatorRef.value.errors || [],
+      }
     }
 
     return () => {

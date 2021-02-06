@@ -139,9 +139,10 @@ const App = defineComponent({
     const formRef = ref()
 
     const validateForm = () => {
-      contextRef.value.doValidate().then((result: any) => {
-        console.log(result, '............')
-      })
+      console.log(contextRef.value.doValidate())
+      // contextRef.value.doValidate().then((result: any) => {
+      //   console.log(result, '............')
+      // })
     }
 
     return () => {
