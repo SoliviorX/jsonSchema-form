@@ -1,6 +1,6 @@
 # vue3-json-schema-form
 
-[![coverage](https://img.shields.io/codecov/c/gh/cwy007/vue3-json-schema-form/main)](https://codecov.io/gh/cwy007/vue3-json-schema-form)
+[![coverage](https://img.shields.io/codecov/c/gh/Shideshanxx/jsonSchema-form/master)](https://codecov.io/gh/Shideshanxx/jsonSchema-form)
 
 a form generator based on jsonschema for vue3
 
