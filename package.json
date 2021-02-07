@@ -1,7 +1,7 @@
 {
-  "name": "vue3-json-schema-form",
+  "name": "vjsf-sds",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:github.io": "rimraf dist && TYPE=github.io vue-cli-service build",
@@ -10,8 +10,16 @@
     "build": "rimraf dist && npm run build:core && npm run build:theme",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:cov": "vue-cli-service test:unit --coverage",
+    "prepublishOnly": "npm run build",
     "lint": "vue-cli-service lint"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.common.js",
   "dependencies": {
     "ajv": "^7.0.3",
     "ajv-errors": "^2.0.0",
