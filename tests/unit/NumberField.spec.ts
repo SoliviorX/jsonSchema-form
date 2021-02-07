@@ -11,7 +11,7 @@ describe('JsonSchemaForm', () => {
           type: 'number',
         },
         value,
-        onChange: v => {
+        onChange: (v: any) => {
           value = v
         },
       },
