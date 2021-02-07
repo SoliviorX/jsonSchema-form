@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import JsonSchemaForm, { NumberField, StringField } from '../../lib'
+import { NumberField, StringField } from '../../lib'
 import TestComponent from './utils/TestComponent'
 
 describe('ObjectField', () => {
