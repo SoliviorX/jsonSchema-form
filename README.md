@@ -2,7 +2,7 @@
 
 [![coverage](https://img.shields.io/codecov/c/gh/Shideshanxx/jsonSchema-form/master)](https://codecov.io/gh/Shideshanxx/jsonSchema-form)
 
-a form generator based on jsonschema for vue3
+a form generator based on jsonschema for vue3，from 慕课网
 
 ## Project setup
 
